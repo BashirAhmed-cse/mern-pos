@@ -4,12 +4,15 @@ import { CiCircleMore } from "react-icons/ci";
 import { MdOutlineReorder, MdTableBar } from "react-icons/md";
 import { BiSolidDish } from "react-icons/bi";
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
 
 const BottomNav = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('home');
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    navigate(tab === 'home' ? '/' : `/${tab}`);
   };
 
   const navItems = [
