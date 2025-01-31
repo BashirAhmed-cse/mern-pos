@@ -3,6 +3,9 @@ import BottomNav from "../components/shared/BottomNav";
 import BackButton from "../components/shared/BackButton";
 import { IoMdRestaurant } from "react-icons/io";
 import MenuContainer from "../components/menu/MenuContainer";
+import CustomerInfo from "../components/menu/CustomerInfo";
+import CartInfo from "../components/menu/CartInfo";
+import Bill from "../components/menu/Bill";
 
 const Menu = () => {
   return (
@@ -23,17 +26,27 @@ const Menu = () => {
                 <h1 className="text-sm md:text-md text-[#f5f5f5] font-semibold">
                   Customer Name
                 </h1>
-                <p className="text-xs text-[#ababab] font-medium">Table No: 2</p>
+                <p className="text-xs text-[#ababab] font-medium">
+                  Table No: 2
+                </p>
               </div>
             </div>
           </div>
         </div>
-         
-         <MenuContainer />
 
+        <MenuContainer />
       </div>
       {/* Right div */}
-      <div className="flex-[1] bg-blue-500"></div>
+      <div className="flex-[1] bg-[#1a1a1a] mt-4 mr-3 h-[780px] rounded-lg pt-2">
+        {/* customer info */}
+        <CustomerInfo/>
+        <hr className="border-[#2a2a2a] border-t-2" />
+        {/* Cart items */}
+        <CartInfo/>
+        <hr className="border-[#2a2a2a] border-t-2" />
+        {/* Bills */}
+        <Bill/>
+      </div>
 
       <BottomNav />
     </section>
