@@ -4,8 +4,8 @@ import OrderList from "./OrderList";
 
 const RecentOrders = () => {
   return (
-    <div className="px-8 mt-6">
-      <div className="bg-[#1a1a1a] w-full h-[450px] rounded-lg">
+    <div className="px-4 sm:px-6 lg:px-8 mt-6">
+      <div className="bg-[#1a1a1a] w-full h-[450px] sm:h-[480px] md:h-[500px] lg:h-[480px]  rounded-lg">
         <div className="flex justify-between items-center px-6 py-4">
           <h1 className="text-[#f5f5f5] text-xl font-semibold tracking-wide">
             Recent Orders
@@ -23,7 +23,7 @@ const RecentOrders = () => {
           />
         </div>
         {/* Order list */}
-        <div className="mt-4 px-6 overflow-y-scroll h-[300px] scrollbar-hide">
+        <div className="mt-4 px-6 overflow-y-scroll h-[300px] scrollbar-hide sm:h-[290px]">
         <OrderList />
         <OrderList />
         <OrderList />

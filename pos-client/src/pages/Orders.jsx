@@ -29,7 +29,7 @@ const Orders = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-center gap-6 px-16 py-4 overflow-scroll h-[calc(100vh-5rem)]">
+      <div className="flex flex-wrap items-center justify-center gap-6 px-8 py-4 overflow-scroll h-[calc(100vh-12rem)]">
       <OrderCard />
       <OrderCard />
       <OrderCard />

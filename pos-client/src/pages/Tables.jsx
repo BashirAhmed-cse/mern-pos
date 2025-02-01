@@ -35,7 +35,7 @@ const Tables = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-center gap-6 px-4 sm:px-8 md:px-12 lg:px-16 py-4 overflow-auto h-[calc(100vh-12rem)]">
+      <div className="flex flex-wrap items-center justify-center gap-6 px-4 sm:px-8 md:px-12 lg:px-5 py-4 overflow-auto h-[calc(100vh-12rem)]">
 
       
       {

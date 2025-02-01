@@ -14,11 +14,11 @@ const PopularDishes = () => {
           </a>
         </div>
 
-        <div className='overflow-y-scroll h-[680px]'>
+        <div className='overflow-y-scroll h-[600px] sm:h-[650px] md:h-[680px] lg:h-[700px] '>
             {
                 popularDishes.map((dish) =>{
                    return(
-                    <div key={dish.id} className='flex items-center gap-4 bg-[#1f1f1f] rounded-[15px] px-6 py-4 mt-4 mx-6'>
+                    <div key={dish.id} className='flex items-center gap-4 bg-[#1f1f1f] rounded-[15px] px-6 py-4 mt-4 mx-6 mb-5'>
                      <h1 className='text-[#f5f5f5] font-bold text-xl mr-5'>{dish.id <10 ? `0${dish.id}` : dish.id}</h1>
                       <img src={dish.image} alt={dish.name} className='w-[50px] h-[50px] rounded-full'/>
                       <div>
