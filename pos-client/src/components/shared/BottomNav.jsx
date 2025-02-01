@@ -26,7 +26,7 @@ const BottomNav = () => {
   const handleTabClick = (path) => {
     navigate(path);
   };
-
+  const isDisabled = location.pathname === "/tables" || location.pathname === "/menu";
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-[#262626] p-2 h-16 flex justify-around items-center">
       {/* Navigation Container */}
@@ -52,10 +52,15 @@ const BottomNav = () => {
 
       {/* Floating Action Button (Dishes) */}
       <button
+     
         onClick={() => setIsModalOpen(true)}
         role="button"
-        className="absolute bottom-16 sm:bottom-6 bg-[#F6B100] text-white rounded-full p-3 h-14 w-14 flex items-center justify-center shadow-lg hover:bg-[#e6a000] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#F6B100]"
+        className={clsx(
+          "absolute bottom-16 sm:bottom-6 bg-[#F6B100] text-white rounded-full p-3 h-14 w-14 flex items-center justify-center shadow-lg hover:bg-[#e6a000] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#F6B100]",
+          isDisabled ? "opacity-50 cursor-not-allowed" : ""
+        )}
         aria-label="Dishes"
+        disabled={isDisabled}
       >
         <BiSolidDish size={30} />
       </button>
