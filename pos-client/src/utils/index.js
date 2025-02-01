@@ -15,3 +15,24 @@ export const getBgColor = () => {
   const color = bgarr[randomBg];
   return color;
 };
+
+
+export const getAvatarName = (name) => {
+  if(!name) return "";
+
+  return name.split(" ").map(word => word[0]).join("").toUpperCase();
+}
+
+export const formattedDate = (time) => {
+  if (!time) return ""; // Return an empty string if no time is passed
+  return time.toLocaleString('en-US', {
+    weekday: 'long',   // Optional: if you want the weekday as well
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true, // 12-hour format (AM/PM)
+  });
+};
+
