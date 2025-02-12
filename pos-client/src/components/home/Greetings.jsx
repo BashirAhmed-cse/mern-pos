@@ -22,7 +22,7 @@ const Greetings = () => {
     <div className="flex justify-between items-center px-8 mt-5">
       <div>
         <h1 className="text-[#f5f5f5] text-xl font-semibold tracking-wide">
-          Good {time.getHours() < 12 ? 'Morning' : time.getHours() < 18 ? 'Afternoon' : 'Evening'}, Amrit
+          Good {time.getHours() < 12 ? 'Morning' : time.getHours() < 18 ? 'Afternoon' : 'Evening'}, Bashir
         </h1>
         <p className="text-[#ababab] text-xs">Give your best services for customers 😊</p>
       </div>
