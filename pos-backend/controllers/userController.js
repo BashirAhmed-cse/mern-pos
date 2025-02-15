@@ -43,7 +43,7 @@ const register = async (req, res, next) => {
       .status(201)
       .json({ success: true, message: "New user created!", data: userData });
   } catch (error) {
-    next(error);
+   next(error);
   }
 };
 
@@ -93,4 +93,22 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login };
+const getUserData = async (req, res, next) => {
+  try {
+    if (!req.user || !req.user._id) {
+      return next(createHttpError(401, "Unauthorized access!"));
+    }
+
+    const user = await User.findById(req.user._id).select("-password"); // 🔐 Exclude password
+    if (!user) {
+      return next(createHttpError(404, "User not found!"));
+    }
+
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+module.exports = { register, login,getUserData };
