@@ -22,6 +22,7 @@ app.get("/", (req,res)=>{
 //Other End point
 app.use("/api/user", require("./routes/userRoute"));
 app.use("/api/order", require("./routes/orderRoute"));
+app.use("/api/table", require("./routes/tableRoute"));
 
 //Global ErrorHandlers
 app.use(globalErrorHandler);
