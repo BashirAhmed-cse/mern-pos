@@ -5,12 +5,26 @@ import App from "./App.jsx";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
+import { SnackbarProvider } from "notistack";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30000,
+    }
+  }
+})
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <SnackbarProvider autoHideDuration={3000}>
+        <QueryClientProvider client={queryClient}>
+        <App />
+        </QueryClientProvider>
+      </SnackbarProvider>
       </PersistGate>
     </Provider>
   </StrictMode>
