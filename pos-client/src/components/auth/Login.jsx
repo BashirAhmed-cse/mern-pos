@@ -16,7 +16,8 @@ const Login = () => {
   });
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -27,14 +28,15 @@ const Login = () => {
   const loginMutation = useMutation({
     mutationFn: (reqData) => login(reqData),
     onSuccess: (res) => {
-      const { data } = res;
-      const { _id, name, email, phone, role } = data.data;
+      const { _id, name, email, phone, role } = res.data.data;
       dispatch(setUser({ _id, name, email, phone, role }));
+      enqueueSnackbar("Login successful!", { variant: "success" });
       navigate("/");
     },
     onError: (error) => {
-      const { response } = error;
-      enqueueSnackbar(response.data.message, { variant: "error" });
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong!";
+      enqueueSnackbar(errorMessage, { variant: "error" });
     },
   });
 
@@ -77,9 +79,14 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full mt-6 py-3 text-lg bg-yellow-400 rounded-lg text-gray-900 font-bold"
+          disabled={loginMutation.isLoading}
+          className={`w-full mt-6 py-3 text-lg rounded-lg font-bold transition-all ${
+            loginMutation.isLoading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-yellow-400 text-gray-900"
+          }`}
         >
-          Sign in
+          {loginMutation.isLoading ? "Signing in..." : "Sign in"}
         </button>
       </form>
     </div>
