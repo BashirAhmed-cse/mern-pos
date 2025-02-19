@@ -1,43 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { login } from '../../https/index';
+import { login } from "../../https/index";
 import { enqueueSnackbar } from "notistack";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const [formData, setFormData] = useState({
-       
-        email: "",
-        password: "",
-      
-      });
-    
-      const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
-    
-  
-      const handleSubmit = (e) => {
-        e.preventDefault();
-       loginMutation.mutate(formData);
-      };
-    
-      const loginMutation = useMutation({
-            mutationFn: (reqData) =>login (reqData),
-            onSuccess: (res) =>{
-               const  {data} = res;
-               console.log(data);
-            } ,
-            onError: (error) => {
-             const { response } = error;
-             enqueueSnackbar(response.data.message, {variant: "error"});
-            }
-      })
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    loginMutation.mutate(formData);
+  };
+
+  const loginMutation = useMutation({
+    mutationFn: (reqData) => login(reqData),
+    onSuccess: (res) => {
+      const { data } = res;
+      const { _id, name, email, phone, role } = data.data;
+      dispatch(setUser({ _id, name, email, phone, role }));
+      navigate("/");
+    },
+    onError: (error) => {
+      const { response } = error;
+      enqueueSnackbar(response.data.message, { variant: "error" });
+    },
+  });
 
   return (
     <div>
-     <form onSubmit={handleSubmit}>
-        
+      <form onSubmit={handleSubmit}>
         <div>
           <label className="block text-[#ababab] mb-2 mt-3 text-md font-medium">
             Employee Email
@@ -54,7 +57,7 @@ const Login = () => {
             />
           </div>
         </div>
-       
+
         <div>
           <label className="block text-[#ababab] mb-2 mt-3 text-md font-medium">
             Password
@@ -71,7 +74,7 @@ const Login = () => {
             />
           </div>
         </div>
-       
+
         <button
           type="submit"
           className="w-full mt-6 py-3 text-lg bg-yellow-400 rounded-lg text-gray-900 font-bold"
@@ -80,7 +83,7 @@ const Login = () => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
