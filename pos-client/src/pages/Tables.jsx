@@ -25,7 +25,7 @@ const Tables = () => {
   const filteredTables = resData?.data?.data?.filter((table) =>
     status === "all" ? true : table.status === "Booked"
   );
-console.log(resData);
+
   return (
     <section className="bg-[#1f1f1f] h-[calc(100vh-5rem)] overflow-hidden">
       <div className="flex items-center justify-between px-10 py-4">

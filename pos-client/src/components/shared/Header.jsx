@@ -16,13 +16,13 @@ const Header = () => {
 
   const logoutMutation = useMutation({
     mutationFn: () => logout(),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+ 
       dispatch(removeUser());
       navigate("/auth");
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 
