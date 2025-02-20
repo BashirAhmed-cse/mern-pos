@@ -6,21 +6,21 @@ const Table = require("../models/tableModel");
 const addTable = async (req, res, next) =>{
     try {
         
-        const {tableNo} = req.body;
+        const {tableNo, seats} = req.body;
 
         if(!tableNo){
           const error =  createHttpError(400, "Please provide table No!");
-          return error;
+          return next(error);
         }
 
         const isTablePresent = await Table.findOne({tableNo});
 
         if(isTablePresent){
             const error =  createHttpError(400, "Table already exist!");
-          return error;
+            return next(error);
         }
 
-        const newTable = new Table({tableNo});
+        const newTable = new Table({tableNo, seats});
         await newTable.save();
 
         res.status(201).json({success: true, message: "Table added!", data: newTable});
@@ -33,7 +33,10 @@ const addTable = async (req, res, next) =>{
 const getTables = async (req, res, next) =>{
    try {
     
-    const tables = await Table.find();
+    const tables = await Table.find().populate({
+        path: "currentOrder",
+        select: "customerDetails"
+    });
     res.status(200).json({success: true, data:tables});
 
    } catch (error) {

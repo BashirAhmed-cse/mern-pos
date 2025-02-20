@@ -23,7 +23,7 @@ const BottomNav = () => {
     { id: "home", label: "Home", icon: IoHomeOutline, path: "/" },
     { id: "orders", label: "Orders", icon: MdOutlineReorder, path: "/orders" },
     { id: "tables", label: "Tables", icon: MdTableBar, path: "/tables" },
-    { id: "more", label: "More", icon: CiCircleMore, path: "/more" },
+    { id: "more", label: "More", icon: CiCircleMore, path: "#" },
   ];
 
   // Derive active tab from URL

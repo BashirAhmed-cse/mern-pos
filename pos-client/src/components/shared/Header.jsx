@@ -31,15 +31,15 @@ const Header = () => {
   };
 
   return (
-    <header className="flex flex-wrap justify-between items-center py-4 px-4 md:px-8 bg-[#1a1a1a]">
-      {/* Logo */}
-      <div className="flex items-center gap-2 mb-4 md:mb-0">
+    <header className="flex flex-wrap items-center justify-between p-4 md:p-6 bg-[#1a1a1a]">
+      {/* Left - Logo */}
+      <div onClick={() => navigate('/')} className="flex items-center gap-2 cursor-pointer">
         <img src={logo} className="h-8 w-8 object-contain" alt="logo" />
         <h1 className="text-lg font-semibold text-[#f5f5f5]">Restro</h1>
       </div>
 
-      {/* Search Bar */}
-      <div className="flex items-center gap-4 bg-[#1f1f1f] rounded-[20px] px-4 py-2 w-full md:w-[500px] mb-4 md:mb-0">
+      {/* Middle - Search Bar (Hidden on Mobile) */}
+      <div className="hidden md:flex items-center gap-4 bg-[#1f1f1f] rounded-[20px] px-4 py-2 w-[400px]">
         <FaSearch className="text-[#f5f5f5]" />
         <input
           type="text"
@@ -48,34 +48,52 @@ const Header = () => {
         />
       </div>
 
-      {/* User Info */}
-      <div className="flex items-center gap-4">
-        {/* Notification Icon */}
+      {/* Right - User & Icons */}
+      <div className="flex items-center gap-3">
+        {/* Admin Dashboard Button (Only for Admins) */}
         {userData.role === "Admin" && (
-          <div onClick={() => navigate("/dashboard")} className="bg-[#1f1f1f] rounded-[15px] p-2 md:p-3 cursor-pointer">
-            <MdDashboard className="text-[#f5f5f5] text-xl md:text-2xl" />
+          <div
+            onClick={() => navigate("/dashboard")}
+            className="bg-[#1f1f1f] rounded-[15px] p-2 cursor-pointer"
+          >
+            <MdDashboard className="text-[#f5f5f5] text-xl" />
           </div>
         )}
 
-        <div className="bg-[#1f1f1f] rounded-[15px] p-2 md:p-3 cursor-pointer">
-          <FaBell className="text-[#f5f5f5] text-xl md:text-2xl" />
+        {/* Notification Icon */}
+        <div className="bg-[#1f1f1f] rounded-[15px] p-2 cursor-pointer">
+          <FaBell className="text-[#f5f5f5] text-xl" />
         </div>
 
         {/* User Profile */}
-        <div className="flex items-center gap-3 cursor-pointer">
-          <FaUserCircle className="text-[#f5f5f5] text-3xl md:text-4xl" />
-          <div className="flex flex-col items-start">
-            <h1 className="text-sm md:text-md text-[#f5f5f5] font-semibold">
+        <div className="flex items-center gap-2 cursor-pointer">
+          <FaUserCircle className="text-[#f5f5f5] text-3xl" />
+          <div className="hidden md:block">
+            <h1 className="text-sm text-[#f5f5f5] font-semibold">
               {userData.name || "Test User"}
             </h1>
             <p className="text-xs text-[#ababab] font-medium">
               {userData.role || "Role"}
             </p>
           </div>
-          <IoLogOut
-            onClick={handleLogout}
-            className="text-[#f5f5f5] ml-2"
-            size={40}
+        </div>
+
+        {/* Logout Button */}
+        <IoLogOut
+          onClick={handleLogout}
+          className="text-[#f5f5f5] cursor-pointer hover:text-red-500"
+          size={30}
+        />
+      </div>
+
+      {/* Mobile Search Bar (Hidden on Desktop) */}
+      <div className="flex md:hidden w-full mt-3">
+        <div className="flex items-center gap-4 bg-[#1f1f1f] rounded-[20px] px-4 py-2 w-full">
+          <FaSearch className="text-[#f5f5f5]" />
+          <input
+            type="text"
+            placeholder="Search"
+            className="bg-transparent w-full outline-none text-[#f5f5f5] placeholder:text-[#ababab]"
           />
         </div>
       </div>

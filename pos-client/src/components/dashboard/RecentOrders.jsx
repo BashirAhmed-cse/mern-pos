@@ -50,7 +50,7 @@ const RecentOrders = () => {
                 </td>
                 <td className="p-4">{order.dateTime}</td>
                 <td className="p-4">{order.items} Items</td>
-                <td className="p-4">Table - {order.tableNumber}</td>
+                <td className="p-4">Table - {order.tableNo}</td>
                 <td className="p-4">₹{order.total.toFixed(2)}</td>
                 <td className="p-4 text-center">
                   <button className="text-blue-400 hover:text-blue-500 transition">
