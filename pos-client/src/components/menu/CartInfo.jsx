@@ -26,7 +26,7 @@ const CartInfo = () => {
       <h1 className="text-[#e4e4e4] font-semibold tracking-wide text-lg">
         Order Details
       </h1>
-      <div className="mt-4 overflow-y-scroll h-[380px]" ref={scrollRef}>
+      <div className="mt-4 overflow-y-scroll h-[300px]" ref={scrollRef}>
         {cartData.length === 0 ? (
           <p className="text-[#ababab] text-sm flex justify-center items-center h-[380px]">
             Your cart is empty. Start adding items!
