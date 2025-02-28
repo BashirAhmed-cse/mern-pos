@@ -1,6 +1,8 @@
 const SSLCommerzPayment = require("sslcommerz-lts");
 const config = require("../config/config");
 const { v4: uuidv4 } = require("uuid");
+const Payment = require("../models/paymentModel");
+const axios = require("axios");
 
 const createOrder = async (req, res) => {
   try {
@@ -61,43 +63,58 @@ const createOrder = async (req, res) => {
   }
 };
 
-const verifyPayment = async (req, res, next) => {
-    try {
-      const store_id = config.sslcommerzKeyId;
-      const store_passwd = config.sslcommerzSecretKey;
-      const is_live = false;
-  
-      const { val_id, tran_id, status } = req.body; // SSLCommerz returns these fields
-  console.log('check verfiy payment daya:', req.body);
-      if (!val_id || !tran_id || !status) {
-        return res.status(400).json({ success: false, message: "Invalid payment verification request!" });
-      }
-  
-      // Call SSLCommerz validation API
-      const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-      const validationUrl = `https://sandbox.sslcommerz.com/validator/api/validationserverAPI.php?val_id=${val_id}&store_id=${store_id}&store_passwd=${store_passwd}&format=json`;
-  
-      const response = await fetch(validationUrl);
-      const validationData = await response.json();
-  
-      if (validationData?.status === "success") {
-        return res.status(200).json({
-          success: true,
-          message: "Payment verified successfully",
-          data: validationData,
-        });
-      } else {
-        return res.status(400).json({
-          success: false,
-          message: "Payment verification failed",
-          data: validationData,
-        });
-      }
-    } catch (error) {
-      console.error("Error verifying payment:", error);
-      res.status(500).json({ success: false, message: "Server error during payment verification" });
+const verifyPayment = async (req, res) => {
+  try {
+    const store_id = config.sslcommerzKeyId;
+    const store_passwd = config.sslcommerzSecretKey;
+    const is_live = false;
+
+    const { val_id, tran_id, status } = req.body;
+
+    if (!val_id || !tran_id || !status) {
+      return res.status(400).json({ success: false, message: "Invalid payment verification request!" });
     }
-  };
+
+    // Call SSLCommerz validation API
+    const validationUrl = `https://sandbox.sslcommerz.com/validator/api/validationserverAPI.php?val_id=${val_id}&store_id=${store_id}&store_passwd=${store_passwd}&format=json`;
+
+    const { data: validationData } = await axios.get(validationUrl);
+    console.log("check validationData",validationData);
+    if (validationData?.status === "VALID" || validationData?.status === "VALIDATED") {
+      // Save payment to database
+      const newPayment = new Payment({
+        paymentId: validationData.tran_id,
+        orderId: tran_id,
+        amount: validationData.amount,
+        currency: validationData.currency,
+        status: validationData.status,
+        method: validationData.card_issuer || "N/A",
+        email: validationData.value_a, // Assuming you passed email as value_a in SSLCommerz
+        contact: validationData.value_b, // Assuming you passed phone as value_b
+        createdAt: new Date(),
+      });
+
+      await newPayment.save();
+
+
+
+      return res.status(200).json({
+        success: true,
+        message: "Payment verified and saved successfully",
+        data: validationData,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Payment verification failed",
+        data: validationData,
+      });
+    }
+  } catch (error) {
+    console.error("Error verifying payment:", error);
+    res.status(500).json({ success: false, message: "Server error during payment verification" });
+  }
+};
   
 
 module.exports = { createOrder,verifyPayment };

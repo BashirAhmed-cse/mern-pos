@@ -47,16 +47,15 @@ const Bill = () => {
 console.log("paymentData:",paymentData);
   // Handle payment verification after successful payment
   const handlePaymentVerification = async () => {
-    if (!paymentData) {
+    if (!paymentData?.tran_id) {
       enqueueSnackbar("No payment data to verify.", { variant: "warning" });
       return;
     }
-
+  
     try {
-      const response = await verifyOnlinePayment(paymentData);
+      const response = await verifyOnlinePayment({ tran_id: paymentData.tran_id });
       if (response.data.success) {
         enqueueSnackbar("Payment verified successfully!", { variant: "success" });
-        // Additional success logic, e.g., updating order status
       } else {
         enqueueSnackbar("Payment verification failed!", { variant: "error" });
       }
@@ -64,7 +63,7 @@ console.log("paymentData:",paymentData);
       enqueueSnackbar("Payment verification error!", { variant: "error" });
     }
   };
-
+  
   return (
     <>
       <div className="flex items-center justify-between px-5 mt-2">
